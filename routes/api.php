@@ -24,4 +24,6 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@create');
 });
 
-Route::apiResource('movies', 'Api\MovieController');
+Route::group(['middleware' => ['jwt','api']], function($router) {
+    Route::resource('movies', 'Api\MovieController');
+  });
