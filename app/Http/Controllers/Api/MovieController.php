@@ -19,10 +19,10 @@ class MovieController extends Controller
 
         if ($term) {
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->paginate(10)->appends(request()->query());
+            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('likeDislike')->paginate(10)->appends(request()->query());
         } else {
 
-            return Movie::paginate(10);
+            return Movie::with('likeDislike')->paginate(10);
 
         }
     }
