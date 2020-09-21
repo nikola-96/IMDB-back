@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Movie extends Model
 {
@@ -12,4 +13,9 @@ class Movie extends Model
     {
         return $this->hasOne('App\LikeDislike');
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }
