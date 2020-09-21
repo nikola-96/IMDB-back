@@ -27,3 +27,7 @@ Route::group([
 Route::group(['middleware' => ['jwt','api']], function($router) {
     Route::resource('movies', 'Api\MovieController');
   });
+
+Route::middleware(['jwt', 'api'])->put('/movies/update/likes', 'Api\LikeDislikeController@updateLike');
+Route::middleware(['jwt', 'api'])->put('/movies/update/dislikes', 'Api\LikeDislikeController@updateDislike');
+  
