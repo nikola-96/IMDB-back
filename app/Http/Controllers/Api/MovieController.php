@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Movie;
+use App\Visit;
+
 
 class MovieController extends Controller
 {
@@ -36,8 +38,11 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return Movie::findOrFail($id);
+    {   
+        
+        Visit::findOrFail($id)->increment('visits');
+        
+        return Movie::with('visits')->findOrFail($id);;
     }
 
     /**
