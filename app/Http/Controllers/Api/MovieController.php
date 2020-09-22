@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Movie;
+use App\Comment;
 
 class MovieController extends Controller
 {
@@ -46,7 +47,12 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::with('comments')->findOrFail($id);
+        $comments = Comment::getComments($id);
+        
+        $movie = Movie::findOrFail($id);
+        $movie->comments = $comments;
+        
+        return $movie;
     }
 
     /**
