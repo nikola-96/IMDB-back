@@ -46,7 +46,7 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::findOrFail($id);
+        return Movie::with(['likeDislike', 'users'])->findOrFail($id);
     }
 
     /**
