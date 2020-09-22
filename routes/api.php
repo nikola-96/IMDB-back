@@ -23,7 +23,10 @@ Route::group([
     Route::post('me', 'Auth\AuthController@me');
     Route::post('register', 'Auth\RegisterController@create');
 });
-
-Route::group(['middleware' => ['jwt','api']], function($router) {
+Route::middleware(['jwt', 'api'])->group(function ()  {
+    Route::resource('/movies/comments', 'Api\CommentController');
+});
+Route::middleware(['jwt', 'api'])->group(function ()  {
     Route::resource('movies', 'Api\MovieController');
   });
+
