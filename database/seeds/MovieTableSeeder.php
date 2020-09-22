@@ -8,6 +8,8 @@ class MovieTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(Movie::class, 10)->create();
-    }
+        App\Genre::all()->each(function(App\Genre $genre) {	
+            $genre->movies()->saveMany(factory(App\Movie::class, 3)->make());
+        });
+        }
 }
