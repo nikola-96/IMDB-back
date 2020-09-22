@@ -20,8 +20,4 @@ class Comment extends Model
         return $this->belongsTo(Movie::class);
     }
 
-    public static function getComments($movie_id)
-    {
-        return self::with('user')->where('movie_id', $movie_id)->get();
-    }
 }

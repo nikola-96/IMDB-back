@@ -19,6 +19,7 @@ class CommentController extends Controller
      */
     public function index()
     {
+        return Comment::where("movie_id",request()->input('movie_id'))->with('user')->get();
     }
 
     /**

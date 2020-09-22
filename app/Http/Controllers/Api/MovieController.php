@@ -47,12 +47,8 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        $comments = Comment::getComments($id);
         
-        $movie = Movie::findOrFail($id);
-        $movie->comments = $comments;
-        
-        return $movie;
+        return Movie::findOrFail($id);
     }
 
     /**
