@@ -41,9 +41,11 @@ class CommentController extends Controller
     {
         $user = auth()->user();
         $comment = $request->all();
-        Comment::create(array_merge(['user_id'=>$user->id], $request->all()));
-        
-        return 'true';
+        $newComment = Comment::create(array_merge(['user_id' => $user->id], $request->all()));
+        $newComment->user->name = $user->name;
+
+        return $newComment;
+
     }
 
     /**
