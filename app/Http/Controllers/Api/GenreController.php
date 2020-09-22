@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Movie;
 use App\Genre;
 
-class MovieController extends Controller
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,14 +15,24 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::with('genre')->paginate(10);
+        return Genre::all();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @ \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -38,7 +47,18 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        return Movie::findOrFail($id);
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -62,11 +82,5 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function getByGenres()
-    {
-        $genre = request()->input('genre');
-        
-        return Movie::where('genre_id', $genre)->paginate(10);
     }
 }
