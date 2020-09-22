@@ -15,7 +15,16 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::paginate(10);
+        $term = request()->input('term');
+
+        if ($term) {
+
+            return Movie::where('title', 'LIKE', '%' . $term . '%')->paginate(10)->appends(request()->query());
+        } else {
+
+            return Movie::paginate(10);
+
+        }
     }
 
     /**
