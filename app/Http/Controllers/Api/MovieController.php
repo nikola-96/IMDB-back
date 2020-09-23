@@ -37,7 +37,7 @@ class MovieController extends Controller
 
             return Movie::where('genre_id', $genre)->paginate(10);
         }else{
-            return Movie::with('genre')->paginate(10);
+            return Movie::with(['genre', "likes"])->paginate(10);
 
         }
     }

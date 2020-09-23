@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Genre;
 use App\Comment;
 use App\Visit;
+use App\LikeDislike;
 
 class Movie extends Model
 {
@@ -19,10 +20,14 @@ class Movie extends Model
         return $this->hasOne(Visit::class);
 
     }
-
     public function comments(){
         
         return $this->hasMany(Comment::class);
     }
+    public function likes(){
+        
+        return $this->hasMany(LikeDislike::class);
+    }
+
 
 }
