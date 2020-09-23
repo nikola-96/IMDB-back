@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Movie;
-use App\Genre;
+use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Comment;
+use App\User;
+use App\Movie;
 
-class MovieController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,27 +19,34 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $term = request()->input('term');
+        return Comment::where("movie_id",request()->input('movie_id'))->with('user')->get();
+    }
 
-        if ($term) {
-
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')->paginate(10)->appends(request()->query());
-        } else {
-
-            return Movie::with('genre')->paginate(10);
-
-        }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @ \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $user = auth()->user();
+        $comment = $request->all();
+        $newComment = Comment::create(array_merge(['user_id' => $user->id], $request->all()));
+        $newComment->user->name = $user->name;
+
+        return $newComment;
+
     }
 
     /**
@@ -48,8 +57,18 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        
-        return Movie::findOrFail($id);
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -73,11 +92,5 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function getByGenres()
-    {
-        $genre = request()->input('genre');
-        
-        return Movie::where('genre_id', $genre)->paginate(10);
     }
 }
