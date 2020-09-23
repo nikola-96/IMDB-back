@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Movie;
 use App\Genre;
-use App\Visit;
-use App\Comment;
 
-
-class MovieController extends Controller
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,34 +15,24 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $term = request()->input('term');
-        $genre = request()->input('genre');
-        
+        return Genre::all();
+    }
 
-
-        if($term && $genre){
-
-            return Movie::where('title', 'LIKE', '%' . $term . '%')
-                    ->where('genre_id', $genre)->with('genre')
-                    ->paginate(10)->appends(request()->query());
-        } else if ($term) {
-
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')
-                    ->paginate(10)->appends(request()->query());
-        } else if($genre) {
-
-            return Movie::where('genre_id', $genre)->paginate(10);
-        }else{
-            return Movie::with('genre')->paginate(10);
-
-        }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @ \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -60,13 +46,19 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        //
+    }
 
-    {   
-        
-        Visit::findOrFail($id)->increment('visits');
-        
-        return Movie::with('visits')->findOrFail($id);;
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
