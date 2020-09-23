@@ -18,12 +18,23 @@ class MovieController extends Controller
     public function index()
     {
         $term = request()->input('term');
+        $genre = request()->input('genre');
+        
 
-        if ($term) {
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')->paginate(10)->appends(request()->query());
-        } else {
+        if($term && $genre){
+            
+            return Movie::where('title', 'LIKE', '%' . $term . '%')
+                    ->where('genre_id', $genre)->with('genre')
+                    ->paginate(10)->appends(request()->query());
+        } else if ($term) {
 
+            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')
+                    ->paginate(10)->appends(request()->query());
+        } else if($genre) {
+
+            return Movie::where('genre_id', $genre)->paginate(10);
+        }else{
             return Movie::with('genre')->paginate(10);
 
         }

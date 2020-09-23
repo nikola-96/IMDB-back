@@ -9,7 +9,7 @@ class MovieTableSeeder extends Seeder
     public function run()
     {
         App\Genre::all()->each(function(App\Genre $genre) {	
-            $genre->movies()->saveMany(factory(App\Movie::class, 10)->make());
+            $genre->movies()->saveMany(factory(App\Movie::class, 40)->make());
         });
         }
 }
