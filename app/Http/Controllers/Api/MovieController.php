@@ -23,7 +23,7 @@ class MovieController extends Controller
 
 
         if($term && $genre){
-            
+
             return Movie::where('title', 'LIKE', '%' . $term . '%')
                     ->where('genre_id', $genre)->with('genre')
                     ->paginate(10)->appends(request()->query());
@@ -84,11 +84,5 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function getByGenres()
-    {
-        $genre = request()->input('genre');
-        
-        return Movie::where('genre_id', $genre)->paginate(10);
     }
 }
