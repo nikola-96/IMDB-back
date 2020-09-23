@@ -12,7 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::middleware('jwt','api')->get('/movies/related_genres', 'Api\MovieController@getRelatedMovies');
+Route::middleware(['jwt', 'api'])->get('/movies/genres', 'Api\GenreController@index');  
+Route::middleware(['jwt', 'api'])->get('/movies/genre', 'Api\MovieController@getByGenres');
+
 
 Route::group([
     'middleware' => 'api',
@@ -29,5 +33,5 @@ Route::middleware(['jwt', 'api'])->group(function ()  {
 });
 Route::middleware(['jwt', 'api'])->group(function ()  {
     Route::resource('movies', 'Api\MovieController');
-  });
+});
 

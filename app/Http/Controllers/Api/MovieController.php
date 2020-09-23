@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Movie;
+use App\Genre;
+use App\Visit;
 use App\Comment;
+
 
 class MovieController extends Controller
 {
@@ -17,13 +20,24 @@ class MovieController extends Controller
     public function index()
     {
         $term = request()->input('term');
+        $genre = request()->input('genre');
+        
 
-        if ($term) {
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->paginate(10)->appends(request()->query());
-        } else {
+        if($term && $genre){
 
-            return Movie::paginate(10);
+            return Movie::where('title', 'LIKE', '%' . $term . '%')
+                    ->where('genre_id', $genre)->with('genre')
+                    ->paginate(10)->appends(request()->query());
+        } else if ($term) {
+
+            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')
+                    ->paginate(10)->appends(request()->query());
+        } else if($genre) {
+
+            return Movie::where('genre_id', $genre)->paginate(10);
+        }else{
+            return Movie::with('genre')->paginate(10);
 
         }
     }
@@ -32,7 +46,7 @@ class MovieController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @ \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -46,9 +60,13 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+
+    {   
         
-        return Movie::findOrFail($id);
+        Visit::findOrFail($id)->increment('visits');
+        
+        return Movie::with('visits')->findOrFail($id);;
+
     }
 
     /**

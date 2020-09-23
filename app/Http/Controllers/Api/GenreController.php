@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CommentRequest;
-use Illuminate\Support\Facades\Auth;
-use App\Comment;
-use App\User;
-use App\Movie;
+use App\Genre;
 
-class CommentController extends Controller
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +15,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return Comment::where("movie_id",request()->input('movie_id'))->with('user')->paginate(5);
+        return Genre::all();
     }
 
     /**
@@ -38,15 +34,9 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CommentRequest $request)
+    public function store(Request $request)
     {
-        $user = auth()->user();
-        $comment = $request->all();
-        $newComment = Comment::create(array_merge(['user_id' => $user->id], $request->all()));
-        $newComment->user->name = $user->name;
-
-        return $newComment;
-
+        //
     }
 
     /**

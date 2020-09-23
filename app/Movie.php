@@ -3,10 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+
+use App\Genre;
 use App\Comment;
+use App\Visit;
 
 class Movie extends Model
 {
+    public function genre(){
+        
+        return $this->belongsTo(Genre::class);
+    }
+    public function visits()
+    {
+        return $this->hasOne(Visit::class);
+
+    }
+
     public function comments(){
         
         return $this->hasMany(Comment::class);
