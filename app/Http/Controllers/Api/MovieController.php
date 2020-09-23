@@ -91,4 +91,8 @@ class MovieController extends Controller
     {
         //
     }
+    public function getRelatedMovies()
+    {
+         return Movie::where('genre_id',request()->input('genre'))->take(10)->get();
+    }
 }
