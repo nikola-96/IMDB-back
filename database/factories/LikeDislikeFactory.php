@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\LikeDislike::class, function (Faker $faker) {
     return [
-        'likes' => 50,
-        'dislikes' => 20 
+        'like' => 50,
+        'dislike' => 20 
     ];
 });

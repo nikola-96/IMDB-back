@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('jwt','api')->get('/movies/related_genres', 'Api\MovieController@getRelatedMovies');
 Route::middleware(['jwt', 'api'])->get('/movies/genres', 'Api\GenreController@index');  
 Route::middleware(['jwt', 'api'])->get('/movies/genre', 'Api\MovieController@getByGenres');
+Route::middleware(['jwt', 'api'])->post('/movies/{id}/likes', 'Api\LikeDislikeController@createLike');
+Route::middleware(['jwt', 'api'])->post('/movies/{id}/dislikes', 'Api\LikeDislikeController@createDislike');
 
 
 Route::group([

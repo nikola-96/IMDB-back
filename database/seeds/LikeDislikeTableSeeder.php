@@ -14,6 +14,6 @@ class LikeDislikeTableSeeder extends Seeder
     public function run()
     {
         Movie::all()->each(function (Movie $movie){
-            $movie->likes()->save(factory(LikeDislike::class)->make());
+            $movie->like()->save(factory(LikeDislike::class)->make());
         });    }
 }
