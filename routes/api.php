@@ -18,6 +18,7 @@ Route::middleware(['jwt', 'api'])->get('/movies/genres', 'Api\GenreController@in
 Route::middleware(['jwt', 'api'])->get('/movies/genre', 'Api\MovieController@getByGenres');
 Route::middleware(['jwt', 'api'])->post('/movies/{id}/likes', 'Api\LikeDislikeController@createLike');
 Route::middleware(['jwt', 'api'])->post('/movies/{id}/dislikes', 'Api\LikeDislikeController@createDislike');
+Route::middleware('jwt','api')->get('/movies/most_rated', 'Api\MovieController@getMostRated');
 
 
 Route::group([

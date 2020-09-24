@@ -95,4 +95,10 @@ class MovieController extends Controller
     {
          return Movie::where('genre_id',request()->input('genre'))->take(10)->get();
     }
+
+    public function getMostRated()
+    {
+       return Movie::withLikes()->orderBy('likes', 'desc')->take(10)->get();
+    }
+
 }
