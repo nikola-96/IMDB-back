@@ -26,18 +26,18 @@ class MovieController extends Controller
 
         if($term && $genre){
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')
-                    ->where('genre_id', $genre)->with('genre')
+             return Movie::where('title', 'LIKE', '%' . $term . '%')
+                    ->where('genre_id', $genre)->with('genre')->withLikes()
                     ->paginate(10)->appends(request()->query());
         } else if ($term) {
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')
+            return Movie::where('title', 'LIKE', '%' . $term . '%')->with('genre')->withLikes()
                     ->paginate(10)->appends(request()->query());
         } else if($genre) {
 
-            return Movie::where('genre_id', $genre)->paginate(10);
+            return Movie::where('genre_id', $genre)->withLikes()->paginate(10);
         }else{
-            return Movie::with('genre')->paginate(10);
+            return Movie::with('genre')->withLikes()->paginate(10);
 
         }
     }
@@ -65,7 +65,7 @@ class MovieController extends Controller
         
         Visit::findOrFail($id)->increment('visits');
         
-        return Movie::with('visits')->findOrFail($id);;
+        return Movie::with('visits')->withLikes()->findOrFail($id);;
 
     }
 
@@ -95,4 +95,10 @@ class MovieController extends Controller
     {
          return Movie::where('genre_id',request()->input('genre'))->take(10)->get();
     }
+
+    public function getMostRated()
+    {
+       return Movie::withLikes()->orderBy('likes', 'desc')->take(10)->get();
+    }
+
 }
