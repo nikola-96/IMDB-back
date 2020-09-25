@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Genre;
 use App\Comment;
 use App\Visit;
+use App\MovieList;
 use App\LikeDislike;
 use App\User;
 
@@ -30,7 +31,10 @@ class Movie extends Model
         
         return $this->hasMany(LikeDislike::class);
     }
-
+    public function lists(){
+        
+        return $this->hasMany(MovieList::class);
+    }
     public function scopeWithLikes(Builder $query)
     {
         $query->leftJoinSub(
@@ -40,5 +44,4 @@ class Movie extends Model
             'movies.id'
         );
     }
-
 }
