@@ -31,28 +31,16 @@ class Movie extends Model
         
         return $this->hasMany(LikeDislike::class);
     }
-
+    public function lists(){
+        
+        return $this->hasMany(MovieList::class);
+    }
     public function scopeWithLikes(Builder $query)
     {
         $query->leftJoinSub(
             'select movie_id, count(liked) likes, count(disliked) dislikes from like_dislikes group by movie_id',
             'like_dislikes',
             'like_dislikes.movie_id',
-            'movies.id'
-        );
-    }
-
-    public function lists(){
-        
-        return $this->hasMany(MovieList::class);
-    }
-    public function scopeWithLists(Builder $query)
-    {
-        $query->leftJoinSub(
-            
-            'SELECT movie_id, user_id FROM movie_lists GROUP BY movie_id',
-            'movie_lists',
-            'movie_lists.movie_id',
             'movies.id'
         );
     }

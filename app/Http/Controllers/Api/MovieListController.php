@@ -11,7 +11,7 @@ class MovieListController extends Controller
 {
     public function addToList(Request $request)
     {
-        MovieList::create([
+        return MovieList::create([
             'movie_id' => $request->id,
             'user_id' => auth()->id(),
             'watched' => true
@@ -19,14 +19,13 @@ class MovieListController extends Controller
     }
     public function getMoviesFromList()
     {
-        $movies_ids = MovieList::where('user_id', auth()->id())->value('id');
-        dd($movies_ids);
+        $movies_ids = MovieList::where('user_id', auth()->id())->pluck('movie_id');
+
         return Movie::whereIn('id', $movies_ids)->with('lists')->paginate(10);
     }
     public function destroy(Request $request)
     {
         $list = MovieList::where(['user_id' => auth()->id(), 'movie_id' => $request->id]);
-        // $list = MovieList::findOrFail($request->id);
         $list->delete();
 
         return 'true';
