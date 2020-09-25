@@ -31,7 +31,7 @@ class MovieController extends Controller
                         $query->where('user_id', '=', auth()->id());
                     }])->withLikes()
                     ->paginate(10)->appends(request()->query());
-                    
+
         } else if ($term) {
 
             return Movie::where('title', 'LIKE', '%' . $term . '%')
@@ -41,7 +41,9 @@ class MovieController extends Controller
                     ->paginate(10)->appends(request()->query());
         } else if($genre) {
 
-            return Movie::where('genre_id', $genre)->withLikes()->paginate(10);
+            return Movie::where('genre_id', $genre)->with(['lists'=> function ($query) {
+                $query->where('user_id', '=', auth()->id());
+            }])->withLikes()->paginate(10);
         }else{
             return Movie::with(['genre', 'lists'=> function ($query) {
                 $query->where('user_id', '=', auth()->id());
