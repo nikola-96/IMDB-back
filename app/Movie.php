@@ -14,6 +14,7 @@ use App\User;
 
 class Movie extends Model
 {
+    protected $guarded = ['id'];
     public function genre(){
         
         return $this->belongsTo(Genre::class);

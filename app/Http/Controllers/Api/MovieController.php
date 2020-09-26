@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MovieRequest;
 use App\Movie;
 use App\Genre;
 use App\Visit;
@@ -58,9 +59,11 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @ \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MovieRequest $request)
     {
-        //
+        $movie =  Movie::create($request->all());
+        Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
+
     }
 
     /**
@@ -73,7 +76,7 @@ class MovieController extends Controller
 
     {   
         
-        Visit::findOrFail($id)->increment('visits');
+        Visit::where('movie_id',$id)->first()->increment('visits');
         
         return Movie::with(['visits', 'lists'=> function ($query) {
             $query->where('user_id', '=', auth()->id());
