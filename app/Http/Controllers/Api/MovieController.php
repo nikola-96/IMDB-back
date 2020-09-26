@@ -76,7 +76,7 @@ class MovieController extends Controller
 
     {   
         
-        Visit::findOrFail($id)->increment('visits');
+        Visit::where('movie_id',$id)->first()->increment('visits');
         
         return Movie::with(['visits', 'lists'=> function ($query) {
             $query->where('user_id', '=', auth()->id());
