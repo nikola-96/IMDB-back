@@ -61,8 +61,19 @@ class MovieController extends Controller
      */
     public function store(MovieRequest $request)
     {
-        $movie =  Movie::create($request->all());
-        Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
+        if($request->get('image'))
+        {
+           $image = $request->get('image');
+           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+           \Image::make($request->get('image'))->resize(200, 200)->save(public_path('thumbnails/').$name);
+           \Image::make($request->get('image'))->resize(400, 400)->save(public_path('full-size/').$name);
+           \Log::info($name);
+
+         }
+         $movie =  Movie::create($request->except('image'));
+         Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
+ 
+        return response()->json(['success' => 'You have successfully uploaded an image'], 200);
 
     }
 
