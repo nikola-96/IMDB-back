@@ -9,10 +9,18 @@ use App\Movie;
 use App\Genre;
 use App\Visit;
 use App\Comment;
+use App\Services\ImageCreationService;
 
 
 class MovieController extends Controller
 {
+    private $imageCreationService;
+
+    public function __construct(ImageCreationService $imageCreationService)
+    {
+       $this->imageCreationService = $imageCreationService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,10 +72,7 @@ class MovieController extends Controller
         if($request->get('image'))
         {
            $image = $request->get('image');
-           $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-           \Image::make($request->get('image'))->resize(200, 200)->save(public_path('thumbnails/').$name);
-           \Image::make($request->get('image'))->resize(400, 400)->save(public_path('full-size/').$name);
-           \Log::info($name);
+           \Log::info($this->imageCreationService->storeImage($image));
 
          }
          $movie =  Movie::create($request->except('image'));
