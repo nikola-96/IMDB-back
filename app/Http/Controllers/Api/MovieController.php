@@ -12,7 +12,7 @@ use App\Comment;
 use App\Events\MovieCreationEvent;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MovieCreationMail;
-
+use App\Jobs\SendEmailJob;
 
 class MovieController extends Controller
 {
@@ -67,7 +67,7 @@ class MovieController extends Controller
         $movie =  Movie::create($request->all());
         Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
 
-        event(new MovieCreationEvent($movie));
+         SendEmailJob::dispatch($movie);
 
     }
 
