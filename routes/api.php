@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+use App\Mail\MovieCreationMail;
+use Illuminate\Support\Facades\Mail;
+Route::middleware('api')->get('/', function(){
+    Mail::to('admin@admin.com')->send(new MovieCreationMail());
+    return new MovieCreationMail();
+});
 
 Route::middleware('jwt','api')->get('/movies/related_genres', 'Api\MovieController@getRelatedMovies');
 Route::middleware(['jwt', 'api'])->get('/movies/genres', 'Api\GenreController@index');  
