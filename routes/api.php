@@ -22,6 +22,7 @@ Route::middleware(['jwt', 'api'])->delete('/movies/movies_list/{id}', 'Api\Movie
 Route::middleware(['jwt', 'api'])->post('/movies/{id}/likes', 'Api\LikeDislikeController@createLike');
 Route::middleware(['jwt', 'api'])->post('/movies/{id}/dislikes', 'Api\LikeDislikeController@createDislike');
 Route::middleware('jwt','api')->get('/movies/most_rated', 'Api\MovieController@getMostRated');
+Route::middleware('jwt','api')->get('/movies/image', 'Api\ImageController@show');
 
 
 Route::group([

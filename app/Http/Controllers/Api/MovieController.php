@@ -72,10 +72,10 @@ class MovieController extends Controller
         if($request->get('image'))
         {
            $image = $request->get('image');
-           \Log::info($this->imageCreationService->storeImage($image));
+           $image_id = $this->imageCreationService->storeImage($image);
 
          }
-         $movie =  Movie::create($request->except('image'));
+         $movie = Movie::create(array_merge($request->except('image'), ['movie_images_id' => $image_id]));
          Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
  
         return response()->json(['success' => 'You have successfully uploaded an image'], 200);
