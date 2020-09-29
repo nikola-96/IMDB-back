@@ -11,6 +11,7 @@ use App\Visit;
 use App\MovieList;
 use App\LikeDislike;
 use App\User;
+use App\MovieImage;
 
 class Movie extends Model
 {
@@ -45,4 +46,9 @@ class Movie extends Model
             'movies.id'
         );
     }
+    public function image()
+    {
+        return $this->belongsTo(MovieImage::class);
+    }
+
 }

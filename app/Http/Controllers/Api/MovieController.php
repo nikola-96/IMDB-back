@@ -9,6 +9,7 @@ use App\Movie;
 use App\Genre;
 use App\Visit;
 use App\Comment;
+use App\Services\ImageCreationService;
 use App\Events\MovieCreationEvent;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MovieCreationMail;
@@ -16,6 +17,13 @@ use App\Jobs\SendEmailJob;
 
 class MovieController extends Controller
 {
+    private $imageCreationService;
+
+    public function __construct(ImageCreationService $imageCreationService)
+    {
+       $this->imageCreationService = $imageCreationService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,8 +72,16 @@ class MovieController extends Controller
      */
     public function store(MovieRequest $request)
     {
-        $movie =  Movie::create($request->all());
-        Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
+        if($request->get('image'))
+        {
+           $image = $request->get('image');
+           $image_id = $this->imageCreationService->storeImage($image);
+           $movie = Movie::create(array_merge($request->except('image'), ['movie_images_id' => $image_id]));
+        }
+        $movie = Movie::create(array_merge($request->all()));
+         Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
+ 
+        return response()->json(['success' => 'You have successfully uploaded an image'], 200);
 
          SendEmailJob::dispatch($movie);
 
