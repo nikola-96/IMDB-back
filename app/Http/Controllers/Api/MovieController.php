@@ -10,7 +10,10 @@ use App\Genre;
 use App\Visit;
 use App\Comment;
 use App\Services\ImageCreationService;
-
+use App\Events\MovieCreationEvent;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MovieCreationMail;
+use App\Jobs\SendEmailJob;
 
 class MovieController extends Controller
 {
@@ -79,6 +82,8 @@ class MovieController extends Controller
          Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
  
         return response()->json(['success' => 'You have successfully uploaded an image'], 200);
+
+         SendEmailJob::dispatch($movie);
 
     }
 
