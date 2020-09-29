@@ -77,13 +77,18 @@ class MovieController extends Controller
            $image = $request->get('image');
            $image_id = $this->imageCreationService->storeImage($image);
            $movie = Movie::create(array_merge($request->except('image'), ['movie_images_id' => $image_id]));
+           SendEmailJob::dispatch($movie);
+
+           return response()->json(['success' => 'You have successfully create movie'], 200);
+
+
         }
         $movie = Movie::create(array_merge($request->all()));
          Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
- 
-        return response()->json(['success' => 'You have successfully uploaded an image'], 200);
-
          SendEmailJob::dispatch($movie);
+
+        return response()->json(['success' => 'You have successfully create movie'], 200);
+
 
     }
 
