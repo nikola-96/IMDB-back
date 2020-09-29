@@ -12,10 +12,21 @@ use App\MovieList;
 use App\LikeDislike;
 use App\User;
 use App\MovieImage;
+use Elasticquent\ElasticquentTrait;
 
 class Movie extends Model
 {
+    use ElasticquentTrait;
+
     protected $guarded = ['id'];
+    
+    protected $mappingProperties = array(
+        'title' => array(
+             'type' => 'string',
+             'analyzer' => 'standard'
+         )
+     );
+
     public function genre(){
         
         return $this->belongsTo(Genre::class);
