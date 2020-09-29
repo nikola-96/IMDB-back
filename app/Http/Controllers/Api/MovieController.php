@@ -13,7 +13,7 @@ use App\Services\ImageCreationService;
 use App\Events\MovieCreationEvent;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MovieCreationMail;
-
+use App\Jobs\SendEmailJob;
 
 class MovieController extends Controller
 {
@@ -83,7 +83,7 @@ class MovieController extends Controller
  
         return response()->json(['success' => 'You have successfully uploaded an image'], 200);
 
-        event(new MovieCreationEvent($movie));
+         SendEmailJob::dispatch($movie);
 
     }
 
