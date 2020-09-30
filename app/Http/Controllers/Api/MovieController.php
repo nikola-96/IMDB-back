@@ -38,7 +38,7 @@ class MovieController extends Controller
 
         if($term && $genre){
 
-             return Movie::where('title', 'LIKE', '%' . $term . '%')
+             return Movie::latest('created_at')->where('title', 'LIKE', '%' . $term . '%')
                     ->where('genre_id', $genre)->with(['genre','lists'=> function ($query) {
                         $query->where('user_id', '=', auth()->id());
                     }])->withLikes()
@@ -46,18 +46,18 @@ class MovieController extends Controller
 
         } else if ($term) {
 
-            return Movie::where('title', 'LIKE', '%' . $term . '%')
+            return Movie::latest('created_at')->where('title', 'LIKE', '%' . $term . '%')
             ->with(['genre','lists'=> function ($query) {
                 $query->where('user_id', '=', auth()->id());
             }])->withLikes()
                     ->paginate(10)->appends(request()->query());
         } else if($genre) {
 
-            return Movie::where('genre_id', $genre)->with(['lists'=> function ($query) {
+            return Movie::latest('created_at')->where('genre_id', $genre)->with(['lists'=> function ($query) {
                 $query->where('user_id', '=', auth()->id());
             }])->withLikes()->paginate(10);
         }else{
-            return Movie::with(['genre', 'lists'=> function ($query) {
+            return Movie::latest('created_at')->with(['genre', 'lists'=> function ($query) {
                 $query->where('user_id', '=', auth()->id());
             }])->withLikes()->paginate(10);
 
