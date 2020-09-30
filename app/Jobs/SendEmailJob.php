@@ -34,4 +34,8 @@ class SendEmailJob implements ShouldQueue
         \Mail::to('admin@admin.com')->send(new MovieCreationMail($this->movie));
 
     }
+    public function failed()
+    {
+
+    }
 }
