@@ -80,8 +80,6 @@ class MovieController extends Controller
            SendEmailJob::dispatch($movie);
 
            return response()->json(['success' => 'You have successfully create movie'], 200);
-
-
         }
         $movie = Movie::create(array_merge($request->all()));
          Visit::create(['movie_id'=> $movie->id, 'visits'=> 0]);
