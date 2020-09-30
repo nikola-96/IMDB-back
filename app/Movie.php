@@ -22,7 +22,7 @@ class Movie extends Model
     
     protected $mappingProperties = array(
         'title' => array(
-             'type' => 'string',
+             'type' => 'text',
              'analyzer' => 'standard'
          )
      );

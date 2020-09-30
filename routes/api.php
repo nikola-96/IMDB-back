@@ -23,6 +23,8 @@ Route::middleware(['jwt', 'api'])->post('/movies/{id}/likes', 'Api\LikeDislikeCo
 Route::middleware(['jwt', 'api'])->post('/movies/{id}/dislikes', 'Api\LikeDislikeController@createDislike');
 Route::middleware('jwt','api')->get('/movies/most_rated', 'Api\MovieController@getMostRated');
 Route::middleware('jwt','api')->get('/movies/image', 'Api\ImageController@show');
+Route::middleware('jwt','api')->get('/movies/elastic', 'Api\ElastichsearchController@index');
+Route::middleware('jwt','api')->get('/movies/elastic/{title}', 'Api\ElastichsearchController@search');
 
 
 Route::group([
