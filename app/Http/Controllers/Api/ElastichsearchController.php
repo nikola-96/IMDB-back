@@ -26,6 +26,7 @@ class ElastichsearchController extends Controller
     {
         $movies = Movie::searchByQuery(['match_phrase_prefix' => 
         ['title' => $title]],null,null,12,0,['id'=>'asc']);
+        
         return $movies;
     }
  
